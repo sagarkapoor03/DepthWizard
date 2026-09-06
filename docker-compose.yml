@@ -1,0 +1,61 @@
+version: "3.9"
+
+# DEPTHWIZARD — one-command full stack
+#   docker compose up --build
+#   frontend → http://localhost:3000
+#   backend  → http://localhost:8000/docs
+#
+# CPU inference works everywhere; if the host has an NVIDIA GPU and the
+# container toolkit installed, uncomment the deploy block for CUDA.
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: depthwizard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DW_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - DW_MAX_UPLOAD_MB=30
+      - DW_FORCE_FALLBACK=false
+      # Runs CPU inference by default and clearly reports the device via
+      # /api/health ("device": "cpu"). Set to "1" only with the deploy block.
+      - NVIDIA_VISIBLE_DEVICES=void
+    volumes:
+      - jobs-data:/app/data/jobs
+      - hf-cache:/root/.cache/huggingface   # persist downloaded weights
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request;urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
+    container_name: depthwizard-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  jobs-data:
+  hf-cache:

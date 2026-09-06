@@ -1,0 +1,76 @@
+# ---------- DEPTHWIZARD ----------
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+backend/.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Backend artefacts
+backend/data/jobs/*
+!backend/data/jobs/.gitkeep
+backend/data/uploads/*
+backend/pytest_out.txt
+backend/pytest_err.txt
+backend/*.log
+
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.eslintcache
+npm_*.log
+build_out.txt
+build_err.txt
+
+# Environment / secrets
+.env
+.env.local
+.env*.local
+*.env
+
+# Logs / temp / diagnostics
+*.log
+*.tmp
+*.temp
+status*.txt
+
+# Model weights / datasets (fetch on demand)
+models/*.safetensors
+models/*.bin
+models/*.onnx
+datasets/*.tif
+datasets/*.tiff
+datasets/*.jpg
+datasets/*.png
+!datasets/README.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# Local diagnostics
+backend/diag_*
+backend/e2e_*
+backend/jobtree.txt
+backend/last_jid.txt
+frontend/build_*.txt
+frontend/dev_out.txt
+frontend/tsc_out.txt
+frontend/npm_diag.txt
+frontend/badjson.txt
+demo_gen*.log
+status*.txt

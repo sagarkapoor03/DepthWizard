@@ -1,0 +1,26 @@
+# DEPTHWIZARD - Backend dependencies
+# Core API
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+pydantic>=2.8.0
+pydantic-settings
+
+# Scientific computing / image processing
+numpy>=1.26.0
+Pillow>=10.0.0
+opencv-python-headless>=4.9.0
+scipy>=1.13.0
+scikit-image>=0.22.0
+rasterio>=1.3.10
+
+# AI model (optional at runtime -- if unavailable the API falls back to a
+# clearly-marked DEMO mode so the application can still start end-to-end)
+torch>=2.2.0
+transformers>=4.40.0
+safetensors>=0.4.0
+accelerate>=0.30.0
+
+# Testing
+pytest>=8.0.0
+httpx>=0.27.0
